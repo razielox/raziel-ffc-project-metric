@@ -33,15 +33,18 @@ const convertUnits = (unit) => {
   const REG = new RegExp(value+'$','i')
   //console.log(REG)
   //console.log(REG.test(unit))
-    if(REG.test(unit)) {
-      const transformToNumber = Number(unit.slice(0, REG.lastIndex - (value.length)))
-      convertTo.initUnit = value
-      convertTo.initNum = transformToNumber !== isNaN(transformToNumber)
-        ? transformToNumber : false
+  const transformToNumber = Number(unit.slice(0, REG.lastIndex - (value.length)))
+    if(REG.test(unit) && !!transformToNumber) {
+      convertTo.initUnit = transformToNumber
+      ? value 
+      : false
+      convertTo.initNum = transformToNumber
+        ? transformToNumber 
+        : false
       convertTo.returnUnit = returnNewUnit(value)
         return unit
     } else {
-      return false
+      return convertTo.initUnit = false
     }
   })
   return convertTo
@@ -60,16 +63,26 @@ function ConvertHandler() {
   this.getUnit = function(input) {
     let result;
     const getunit = convertUnits(input)
+    console.log(getunit)
     return getunit.initUnit;
   };
   
   this.getReturnUnit = function(initUnit) {
     let result;
     
-    const getReturnUnit = convertUnits(initUnit)
-    return getReturnUnit.returnUnit;
+    const getReturnUnit = returnNewUnit(initUnit)
+    return getReturnUnit;
   };
 
+  this.invalidDivision = (unit, cb) => {
+    if(unit.split('/').length <= 2) {
+      const newArr = unit.split('/')
+      return cb(newArr.reduce((actual, acumulator) => actual / acumulator))
+    } else {
+      return false
+    }
+    
+  }
   this.spellOutUnit = function(unit) {
     let result;
     

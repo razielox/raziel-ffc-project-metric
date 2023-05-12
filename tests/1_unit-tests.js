@@ -19,23 +19,27 @@ suite('Unit Tests', function(){
             assert.equal(convertHandler.getReturnUnit(input), 'lbs')
         })
         test('#4 return invalid unit', () => {
-            let input = "kg"
-            assert.equal(convertHandler.getReturnUnit(input), 'lbs')
+            let input = "54mi"
+            const validUnits = ['gal','mi','lbs','L','km','kg']
+            assert.include(validUnits,convertHandler.getUnit(input), 'Invalid unit')
 
         })
         test('#5 return invalid double division', () => {
-            let input = "kg"
-            assert.equal(convertHandler.getReturnUnit(input), 'lbs')
+            let input = "5.1/2/2"
+            const result = some => {
+                return some
+              }
+            assert.equal(convertHandler.invalidDivision(input, result), 2.55,'no double division')
 
         })
-        test('#6 read a fraction "decimal" number', () => {
-            let input = "kg"
-            assert.equal(convertHandler.getReturnUnit(input), 'lbs')
+        test('#6 read a "decimal" number', () => {
+            let input = "40.5kg"
+            assert.equal(convertHandler.getNum(input), 40.5)
 
         })
         test('#7 read a fraction number', () => {
-            let input = "kg"
-            assert.equal(convertHandler.getReturnUnit(input), 'lbs')
+            let input = "40.5/2kg"
+            assert.equal(convertHandler.getNum(input), '40.5/2')
 
         })
         test('#8 return the string spell of converted unit', () => {
